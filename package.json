@@ -44,7 +44,8 @@
   "devDependencies": {
     "electron": "^28.2.2",
     "electron-builder": "^24.9.1",
-    "electron-is-dev": "^3.0.1"
+    "electron-is-dev": "^3.0.1",
+    "@babel/plugin-proposal-private-property-in-object": ""
   },
   "build": {
     "appId": "com.example.myapp",

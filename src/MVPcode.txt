@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+    <h1>
+        Testing
+    </h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="checkbox"], input[type="range"], select {
+            margin-bottom: 10px;
+
+        }
+        .btn{
+             background-color:rgb(0, 110, 255);
+             color: white;
+             padding: 5px;
+             font-size: 16px;
+             border-style:inset;
+             border-width: 3px;
+             border-color:darkblue;
+             cursor:default;
+
+        }
+        .openresponse{
+            height: 100px;
+            width: 400px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+<!-- Questions -->
+<label for="questionText">Enter a question:</label>
+<input type="text" id="questionText" name="questionText" >
+<select id="questionType">
+    <option value="yesno">Yes/No</option>
+    <option value="scale">Scale</option>
+    <option value="checkbox">Checkboxes</option>
+    <!--<option value="multiplechoice">Multiple Choice</option> -->
+    <option value="openresponse">Open Response</option>
+    
+</select>
+<button class ="btn" type="button" onclick="addQuestion()">Add Question</button>
+<button class = "btn" type="button"onclick="removeQuestion()">Remove Question</button>
+<button class = "btn" type="button"onclick="clearField()">Clear</button>
+<h3>     </h3>
+
+<label for="surveyName" style="text-align: center; margin-bottom: 20px;">Survey Name:<input type="text" id="questionText" name="questionText" ></label>
+
+<label for="participantName" style="text-align: right; margin-bottom: 20px;">Participant Name:  _______________________</label>
+
+<!-- Dynamic Questions -->
+<div id="dynamicQuestions"></div>
+
+
+<!-- Print Button -->
+<h1>     </h1>
+<button class ="btn"type="button" onclick="print()">Print</button>
+
+<script>
+    
+    const questions = [];
+
+    function addQuestion() 
+    {
+        const newQuestion = document.getElementById("questionText").value.trim();
+        const questionType = document.getElementById("questionType").value;
+       
+        if (newQuestion && questionType) 
+        {
+            questions.push({ question: newQuestion, type: questionType });
+            updateDynamicQuestions();
+        } 
+
+    }
+
+    function removeQuestion() {
+        if (questions.length > 0) {
+            questions.pop();
+            updateDynamicQuestions();
+        } else {
+            alert("No questions to remove!");
+        }
+    }
+
+    function updateDynamicQuestions() 
+    {
+        const dynamicQuestions = document.getElementById("dynamicQuestions");
+        dynamicQuestions.innerHTML = "";
+
+        questions.forEach(function (question, index) {
+            const questionElement = createQuestionElement(question, index);
+            dynamicQuestions.appendChild(questionElement);
+        });
+    }
+
+    function createQuestionElement(question, index) {
+        const questionElement = document.createElement("div");
+       
+
+        if (question.type === "yesno") {
+             const yesLabel = document.createElement("label");
+             yesLabel.textContent = question.question;
+             const yesInput = document.createElement("input");
+             yesInput.setAttribute('type','radio');
+             yesInput.setAttribute('name', 'yes');
+           
+             const noInput = document.createElement("input");
+             noInput.setAttribute('type','radio');
+             noInput.setAttribute('name', 'no');
+            
+
+             const Label1 = document.createElement("label");
+             Label1.textContent = " Yes";
+             Label1.style.display = 'inline-block';
+             const Label2 = document.createElement("label");
+             Label2.textContent = " No";
+             Label2.style.display = 'inline-block';
+
+             questionElement.appendChild(yesLabel);
+             questionElement.appendChild(yesInput);
+             questionElement.appendChild(Label1);
+             questionElement.appendChild(document.createElement('br'));
+             questionElement.appendChild(noInput);
+             questionElement.appendChild(Label2);
+            
+        } else if (question.type === "scale") {
+            const scaleLabel = document.createElement("label"); 
+            scaleLabel.textContent = question.question; 
+            const scaleInput1 = document.createElement("input"); 
+            const scaleInput2 = document.createElement("input"); 
+            const scaleInput3 = document.createElement("input"); 
+            const scaleInput4 = document.createElement("input"); 
+            const scaleInput5 = document.createElement("input"); 
+            const scaleText = document.createElement("input"); 
+            const scaleText2 = document.createElement("input"); 
+            scaleInput1.setAttribute('type', 'radio'); 
+            scaleInput1.setAttribute('class', 'radio'); 
+            scaleInput2.setAttribute('type', 'radio'); 
+            scaleInput2.setAttribute('class', 'radio'); 
+            scaleInput3.setAttribute('type', 'radio'); 
+            scaleInput3.setAttribute('class', 'radio'); 
+            scaleInput4.setAttribute('type', 'radio'); 
+            scaleInput4.setAttribute('class', 'radio'); 
+            scaleInput5.setAttribute('type', 'radio'); 
+            scaleInput5.setAttribute('class', 'radio'); 
+            scaleText.setAttribute('type', 'textField'); 
+            scaleText.setAttribute('class', 'name'); 
+            scaleText2.setAttribute('type', 'textField'); 
+            scaleText2.setAttribute('class', 'name'); 
+            questionElement.appendChild(scaleLabel); 
+            questionElement.appendChild(scaleText); 
+            questionElement.appendChild(scaleInput1); 
+            questionElement.appendChild(scaleInput2); 
+            questionElement.appendChild(scaleInput3); 
+            questionElement.appendChild(scaleInput4); 
+            questionElement.appendChild(scaleInput5); 
+            questionElement.appendChild(scaleText2); 
+            questionElement.appendChild(document.createElement('br')); 
+            questionElement.appendChild(document.createElement('br')); 
+        } else if (question.type === "checkbox") {
+            const label = document.createElement("label"); 
+            label.textContent = question.question; 
+            const checkbox1 = document.createElement("input"); 
+            checkbox1.type = "checkbox"; 
+            const checkbox2 = document.createElement("input"); 
+            checkbox2.type = "checkbox"; 
+            const checkbox3 = document.createElement("input"); 
+            checkbox3.type = "checkbox"; 
+            const checkbox4 = document.createElement("input"); 
+            checkbox4.type = "checkbox"; 
+            const checkText1 = document.createElement("input"); 
+            checkText1.type = "textField"; 
+            checkText1.setAttribute('class', 'name'); 
+            const checkText2 = document.createElement("input"); 
+            checkText2.type = "textField"; 
+            checkText2.setAttribute('class', 'name'); 
+            const checkText3 = document.createElement("input"); 
+            checkText3.type = "textField"; 
+            checkText3.setAttribute('class', 'name'); 
+            const checkText4 = document.createElement("input"); 
+            checkText4.type = "textField"; 
+            checkText4.setAttribute('class', 'name'); 
+            /*checkbox.name = "questions"; 
+            label.htmlFor = "question" + index; 
+            checkbox.value = question.question; 
+            checkbox.id = "question" + index;*/ 
+            questionElement.appendChild(label); 
+            questionElement.appendChild(checkbox1); 
+            questionElement.appendChild(checkText1); 
+            questionElement.appendChild(document.createElement('br')); 
+            questionElement.appendChild(checkbox2); 
+            questionElement.appendChild(checkText2); 
+            questionElement.appendChild(document.createElement('br')); 
+            questionElement.appendChild(checkbox3); 
+            questionElement.appendChild(checkText3); 
+            questionElement.appendChild(document.createElement('br')); 
+            questionElement.appendChild(checkbox4); 
+            questionElement.appendChild(checkText4); 
+            questionElement.appendChild(document.createElement('br')); 
+            questionElement.appendChild(document.createElement('br')); 
+
+ 
+        } else if (question.type === "multiplechoice") {
+            const mcLabel = document.createElement("label");
+            mcLabel.textContent = question.question;
+
+           // const mcInput = document.createElement("select");
+           // mcInput.name = "multipleChoiceQuestions";
+           // const mcOptions = ["Option 1", "Option 2", "Option 3"];
+          //  mcOptions.forEach((option) => {
+            //    const mcOption = document.createElement("option");
+              //  mcOption.value = option;
+              //  mcOption.textContent = option;
+              //  mcInput.appendChild(mcOption);
+           // });
+
+            questionElement.appendChild(mcLabel);
+            questionElement.appendChild(mcInput);
+        } else if (question.type === "openresponse") {
+            const orLabel = document.createElement("label");
+            orLabel.textContent = question.question;
+
+            const orInput = document.createElement("input");
+            orInput.type = "text";
+            orInput.name = "openResponseQuestions";
+            orInput.setAttribute('class', 'openresponse');
+
+            questionElement.appendChild(orLabel);
+            questionElement.appendChild(orInput);
+        }
+
+        return questionElement;
+    }
+
+    function printSurvey() {
+        const participantName = document.getElementById("participantName").value;
+        const yesnoQuestions = getYesNoQuestions();
+        const scaleQuestions = getScaleQuestions();
+        const checkboxQuestions = getCheckboxQuestions();
+        const multipleChoiceQuestions = getMultipleChoiceQuestions();
+
+        const printContent = `
+            <h2>Survey Responses</h2>
+            <p><strong>Participant Name:</strong> ${participantName}</p>
+            <p><strong>Yes/No Questions:</strong> ${yesnoQuestions.join(", ")}</p>
+            <p><strong>Scale Questions:</strong> ${scaleQuestions.join(", ")}</p>
+            <p><strong>Checkbox Questions:</strong> ${checkboxQuestions.join(", ")}</p>
+            <p><strong>Multiple Choice Questions:</strong> ${multipleChoiceQuestions.join(", ")}</p>
+        `;
+
+        const printWindow = require("electron").remote.getCurrentWindow();
+        printWindow.webContents.send("print", printContent);
+    }
+
+    function getYesNoQuestions() {
+        const yesnoQuestions = document.getElementsByName("yesnoQuestions");
+        const responses = [];
+
+        yesnoQuestions.forEach(function (question) {
+            responses.push(question.value);
+        });
+
+        return responses;
+    }
+
+    function getScaleQuestions() {
+        const scaleInputs = document.getElementsByName("scaleQuestions");
+        const scaleQuestions = [];
+
+        scaleInputs.forEach(function (scaleInput) {
+            scaleQuestions.push(scaleInput.value);
+        });
+
+        return scaleQuestions;
+    }
+
+    function getCheckboxQuestions() {
+        const checkboxes = document.getElementsByName("questions");
+        const selectedQuestions = [];
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedQuestions.push(checkbox.value);
+            }
+        });
+
+        return selectedQuestions;
+    }
+
+    function getMultipleChoiceQuestions() {
+        const mcQuestions = document.getElementsByName("multipleChoiceQuestions");
+        const responses = [];
+
+        mcQuestions.forEach(function (question) {
+            responses.push(question.value);
+        });
+
+        return responses;
+    }
+    function getOpenResponseQuestions() {
+        const orQuestions = document.getElementsByName("openResponseQuestions");
+        const responses = [];
+
+        orQuestions.forEach(function (question) {
+            responses.push(question.value);
+        });
+
+        return responses;
+    }
+
+       function clearField() {
+         document.getElementById("questionText").value = "";
+       }
+
+</script>
+
+</body>
+</html>

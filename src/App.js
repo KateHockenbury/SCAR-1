@@ -25,35 +25,124 @@ function App() {
 export default App;*/
 
 import React, { useState } from 'react';
+import { TextField, Button, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel } from '@mui/material';
+import OpenResponseQuestions from './openResponse';
+import AddQuestion from './addquestion';
 
 function SurveyApp() {
     const [surveyName, setSurveyName] = useState('');
     const [participantName, setParticipantName] = useState('');
     const [questions, setQuestions] = useState([]);
 
+    const handleSurveyNameChange = (event) => {
+      setSurveyName(event.target.value);
+    };
+
+  const handleParticipantNameChange = (event) => {
+      setParticipantName(event.target.value);
+  };
+
+
+
     function addQuestion() {
+        return (
+            <div>
+                <h1>Add question</h1>
+                <AddQuestion />
+            </div>
+        );
+        
+        /*
         const newQuestion = document.getElementById("questionText").value.trim();
         const questionType = document.getElementById("questionType").value;
 
         if (newQuestion && questionType) {
             setQuestions(prevQuestions => [...prevQuestions, { question: newQuestion, type: questionType }]);
-        }
+        }*/
+        /*const [questions, setQuestions] = useState([]);
+        const [newQuestion, setNewQuestion] = useState('');
+        const [questionType, setQuestionType] = useState('');
+    
+        const handleQuestionChange = (event) => {
+            setNewQuestion(event.target.value.trim());
+        };
+    
+        const handleQuestionTypeChange = (event) => {
+            setQuestionType(event.target.value);
+        };
+    
+        const addQuestion = () => {
+            if (newQuestion && questionType) {
+                setQuestions([...questions, { question: newQuestion, type: questionType }]);
+                setNewQuestion('');
+                setQuestionType('');
+            }
+        };*/
     }
 
     function removeQuestion() {
         setQuestions(prevQuestions => prevQuestions.slice(0, -1));
     }
 
-    function handleSurveyNameChange(event) {
+    /*function handleSurveyNameChange(event) {
         setSurveyName(event.target.value);
-    }
+    }*/
 
-    function handleParticipantNameChange(event) {
+    /*function handleParticipantNameChange(event) {
         setParticipantName(event.target.value);
-    }
+    }*/
 
     // You need to implement createQuestionElement and other functions for dynamic questions
 
+    return (
+      <div>
+          <FormControl size='large'>
+              <InputLabel htmlFor="surveyName"></InputLabel>
+              <TextField id="surveyName" value={surveyName} onChange={handleSurveyNameChange} placeholder='Survey Name:'/>
+          </FormControl>
+
+          <FormControl size='large'>
+            <InputLabel htmlFor="participantName"></InputLabel>
+            <TextField id="participantName" value={participantName} onChange={handleParticipantNameChange} placeholder='Participant Name:' sx={{textAlign:'left'}}/>
+          </FormControl>
+
+          <FormControl fullWidth>
+              <InputLabel htmlFor="questionText"></InputLabel>
+              <TextField id="questionText" name="questionText" placeholder='Enter a question:' />
+          </FormControl>
+
+          <FormControl fullWidth>
+              <InputLabel id="questionTypeLabel">Question Type:</InputLabel>
+              <Select labelId="questionTypeLabel" id="questionType">
+                  <MenuItem value="yesno">Yes/No</MenuItem>
+                  <MenuItem value="scale">Scale</MenuItem>
+                  <MenuItem value="checkbox">Checkboxes</MenuItem>
+                  <MenuItem value="openresponse">Open Response</MenuItem>
+              </Select>
+          </FormControl>
+
+          <Button variant="contained" onClick={addQuestion}>Add Question</Button>
+          <Button variant="contained" onClick={removeQuestion}>Remove Question</Button>
+
+          {/* Render dynamic questions here */}
+          <div id="dynamicQuestions">
+              {questions.map((question, index) => (
+                  // You need to call createQuestionElement to render each dynamic question
+                  <div key={index}>
+                      {/* createQuestionElement(question, index) */}
+                      <OpenResponseQuestions />
+                  </div>
+              ))}
+          </div>
+
+          <Button variant="contained">Print</Button>
+      </div>
+  );
+}
+
+
+    /*
     return (
         <div>
             <label htmlFor="surveyName">Survey Name:</label>
@@ -73,12 +162,14 @@ function SurveyApp() {
             <button type="button" onClick={addQuestion}>Add Question</button>
             <button type="button" onClick={removeQuestion}>Remove Question</button>
 
-            {/* Render dynamic questions here */}
+            {/* Render dynamic questions here }
             <div id="dynamicQuestions">
                 {questions.map((question, index) => (
                     // You need to call createQuestionElement to render each dynamic question
                     <div key={index}>
-                        {/* createQuestionElement(question, index) */}
+                        {/* createQuestionElement(question, index) }
+                        {/*Openresponse added, calling the other file hopefully}
+                        <OpenResponseQuestions />
                     </div>
                 ))}
             </div>
@@ -86,6 +177,7 @@ function SurveyApp() {
             <button type="button">Print</button>
         </div>
     );
-}
+                }*/
+
 
 export default SurveyApp;
