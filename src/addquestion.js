@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 
 function AddQuestion() {
 
@@ -7,8 +7,8 @@ function AddQuestion() {
    
     if (newQuestion && questionType) 
     {
-        questions.push({ question: newQuestion, type: questionType });
-        updateDynamicQuestions();
+        //questions.push({ question: newQuestion, type: questionType });
+        //updateDynamicQuestions();
     }
 }
 /*
@@ -62,5 +62,6 @@ function AddQuestion() {
         </div>
     );
 }
-*/
+
 export default AddQuestion;
+*/

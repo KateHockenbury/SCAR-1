@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: flex;
+  gap: 10px; /* Adjust the gap value as needed */
+}
+
+.textbox {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+@media print {
+  .remove-button {
+    display: none;
+  }
+}
